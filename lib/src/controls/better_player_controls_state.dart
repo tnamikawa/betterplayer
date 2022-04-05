@@ -42,6 +42,8 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
           .inMilliseconds;
       betterPlayerController!
           .seekTo(Duration(milliseconds: max(skip, beginning)));
+      betterPlayerController!.postEvent(
+          BetterPlayerEvent(BetterPlayerEventType.skipBackward));
     }
   }
 
@@ -55,6 +57,8 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
                       .forwardSkipTimeInMilliseconds))
           .inMilliseconds;
       betterPlayerController!.seekTo(Duration(milliseconds: min(skip, end)));
+      betterPlayerController!.postEvent(
+          BetterPlayerEvent(BetterPlayerEventType.skipForward));
     }
   }
 
