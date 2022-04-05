@@ -2,7 +2,7 @@ group 'com.jhomlala.better_player'
 version '0.0.77'
 
 buildscript {
-
+    ext.kotlin_version = '1.4.32'
     ext.exoPlayerVersion = "2.15.1"
     ext.lifecycleVersion = "2.4.0-beta01"
     ext.annotationVersion = "1.2.0"
@@ -13,6 +13,7 @@ buildscript {
 
     repositories {
         google()
+        jcenter()
         mavenCentral()
     }
 
@@ -35,7 +36,7 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 23
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
