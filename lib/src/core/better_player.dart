@@ -131,10 +131,13 @@ class _BetterPlayerState extends State<BetterPlayer>
   void onControllerEvent(BetterPlayerControllerEvent event) {
     switch (event) {
       case BetterPlayerControllerEvent.openFullscreen:
-        onFullScreenChanged();
+        onFullScreenChanged(false);
         break;
       case BetterPlayerControllerEvent.hideFullscreen:
-        onFullScreenChanged();
+        onFullScreenChanged(false);
+        break;
+      case BetterPlayerControllerEvent.hideFullscreenManually:
+        onFullScreenChanged(true);
         break;
       default:
         setState(() {});
@@ -143,7 +146,7 @@ class _BetterPlayerState extends State<BetterPlayer>
   }
 
   // ignore: avoid_void_async
-  Future<void> onFullScreenChanged() async {
+  Future<void> onFullScreenChanged(bool isManual) async {
     final controller = widget.controller;
     if (controller.isFullScreen && !_isFullScreen) {
       _isFullScreen = true;
@@ -153,8 +156,13 @@ class _BetterPlayerState extends State<BetterPlayer>
     } else if (_isFullScreen) {
       Navigator.of(context, rootNavigator: true).pop();
       _isFullScreen = false;
-      controller
-          .postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
+      if (isManual) {
+        controller
+            .postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreenManually));
+      } else {
+        controller
+            .postEvent(BetterPlayerEvent(BetterPlayerEventType.hideFullscreen));
+      }
     }
   }
 
