@@ -75,6 +75,8 @@ class BetterPlayerControlsConfiguration {
   ///Time to hide controls
   final Duration controlsHideTime;
 
+  final bool progressCountDown;
+
   ///Parameter used to build custom controls
   final Widget Function(BetterPlayerController controller,
       Function(bool) onPlayerVisibilityChanged)? customControlsBuilder;
@@ -185,6 +187,7 @@ class BetterPlayerControlsConfiguration {
     this.progressBarHandleColor = Colors.white,
     this.progressBarBufferedColor = Colors.white70,
     this.progressBarBackgroundColor = Colors.white60,
+    this.progressCountDown = false,
     this.controlsHideTime = const Duration(milliseconds: 300),
     this.customControlsBuilder,
     this.playerTheme,

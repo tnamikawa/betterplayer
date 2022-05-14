@@ -103,6 +103,8 @@ class BetterPlayerController {
   ///Timer for next video. Used in playlist.
   Timer? _nextVideoTimer;
 
+  Timer? _countDownTimer;
+
   ///Time for next video.
   int? _nextVideoTime;
 
@@ -556,15 +558,12 @@ class BetterPlayerController {
       if (fullScreenByDefault && !isFullScreen) {
         enterFullScreen();
       }
-      if (_isAutomaticPlayPauseHandled()) {
-        if (_appLifecycleState == AppLifecycleState.resumed &&
-            _isPlayerVisible) {
-          await play();
-        } else {
-          _wasPlayingBeforePause = true;
-        }
+      if (betterPlayerConfiguration.controlsConfiguration.progressCountDown) {
+        _countDownTimer = Timer(const Duration(seconds: 3), () async {
+          await _invokeAutoPlay();
+        });
       } else {
-        await play();
+        await _invokeAutoPlay();
       }
     } else {
       if (fullScreenByDefault) {
@@ -575,6 +574,19 @@ class BetterPlayerController {
     final startAt = betterPlayerConfiguration.startAt;
     if (startAt != null) {
       seekTo(startAt);
+    }
+  }
+
+  Future<void> _invokeAutoPlay() async {
+    if (_isAutomaticPlayPauseHandled()) {
+      if (_appLifecycleState == AppLifecycleState.resumed &&
+          _isPlayerVisible) {
+        await play();
+      } else {
+        _wasPlayingBeforePause = true;
+      }
+    } else {
+      await play();
     }
   }
 
@@ -879,6 +891,8 @@ class BetterPlayerController {
     _nextVideoTimeStreamController.add(_nextVideoTime);
     _nextVideoTimer?.cancel();
     _nextVideoTimer = null;
+    _countDownTimer?.cancel();
+    _countDownTimer = null;
   }
 
   ///Play next video form playlist. Do not use manually.
@@ -1294,6 +1308,7 @@ class BetterPlayerController {
       }
       _eventListeners.clear();
       _nextVideoTimer?.cancel();
+      _countDownTimer?.cancel();
       _nextVideoTimeStreamController.close();
       _controlsVisibilityStreamController.close();
       _videoEventStreamSubscription?.cancel();
