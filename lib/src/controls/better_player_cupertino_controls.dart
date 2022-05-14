@@ -7,6 +7,7 @@ import 'package:better_player/src/controls/better_player_progress_colors.dart';
 import 'package:better_player/src/core/better_player_controller.dart';
 import 'package:better_player/src/core/better_player_utils.dart';
 import 'package:better_player/src/video_player/video_player.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,9 @@ class _BetterPlayerCupertinoControlsState
   Timer? _hideTimer;
   Timer? _expandCollapseTimer;
   Timer? _initTimer;
+  Timer? _loadingProgressTimer;
   bool _wasLoading = false;
+  bool _wasCountDone = false;
 
   VideoPlayerController? _controller;
   BetterPlayerController? _betterPlayerController;
@@ -91,8 +94,8 @@ class _BetterPlayerCupertinoControlsState
         barHeight,
         buttonPadding,
       ),
-      if (_wasLoading)
-        Expanded(child: Center(child: _buildLoadingWidget()))
+      if (_wasLoading || (_controlsConfiguration.progressCountDown && !_wasCountDone))
+        Expanded(child: _buildLoadingWidget())
       else
         _buildHitArea(),
       _buildNextVideoWidget(),
@@ -141,6 +144,7 @@ class _BetterPlayerCupertinoControlsState
     _hideTimer?.cancel();
     _expandCollapseTimer?.cancel();
     _initTimer?.cancel();
+    _loadingProgressTimer?.cancel();
     _controlsVisibilityStreamSubscription?.cancel();
   }
 
@@ -601,6 +605,12 @@ class _BetterPlayerCupertinoControlsState
         changePlayerControlsNotVisible(false);
       });
     }
+    if (_controlsConfiguration.progressCountDown) {
+      _loadingProgressTimer = Timer(const Duration(seconds: 3), () {
+        _wasCountDone = true;
+        _invokeSetState();
+      });
+    }
     _controlsVisibilityStreamSubscription =
         _betterPlayerController!.controlsVisibilityStream.listen((state) {
       changePlayerControlsNotVisible(!state);
@@ -682,7 +692,7 @@ class _BetterPlayerCupertinoControlsState
     if (_betterPlayerController!.controlsAlwaysVisible) {
       return;
     }
-    _hideTimer = Timer(const Duration(seconds: 3), () {
+    _hideTimer = Timer(const Duration(milliseconds: 1500), () {
       changePlayerControlsNotVisible(true);
     });
   }
@@ -693,14 +703,18 @@ class _BetterPlayerCupertinoControlsState
           isVideoFinished(_controller!.value) ||
           _wasLoading ||
           isLoading(_controller!.value)) {
-        setState(() {
-          _latestValue = _controller!.value;
-          if (isVideoFinished(_latestValue)) {
-            changePlayerControlsNotVisible(false);
-          }
-        });
+        _invokeSetState();
       }
     }
+  }
+
+  void _invokeSetState() {
+    setState(() {
+      _latestValue = _controller!.value;
+      if (isVideoFinished(_latestValue)) {
+        changePlayerControlsNotVisible(false);
+      }
+    });
   }
 
   void _onPlayerHide() {
@@ -747,15 +761,19 @@ class _BetterPlayerCupertinoControlsState
     }
   }
 
-  Widget? _buildLoadingWidget() {
-    if (_controlsConfiguration.loadingWidget != null) {
-      return _controlsConfiguration.loadingWidget;
+  Widget _buildLoadingWidget() {
+    if (_controlsConfiguration.progressCountDown) {
+      return _ThreeSecondsCountDown(loadingColor: _controlsConfiguration.loadingColor);
     }
 
-    return CircularProgressIndicator(
+    if (_controlsConfiguration.loadingWidget != null) {
+      return _controlsConfiguration.loadingWidget!;
+    }
+
+    return Center(child:CircularProgressIndicator(
       valueColor:
           AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor),
-    );
+    ));
   }
 
   Widget _buildPipButton(
@@ -808,3 +826,89 @@ class _BetterPlayerCupertinoControlsState
     );
   }
 }
+
+class _ThreeSecondsCountDown extends StatelessWidget {
+  _ThreeSecondsCountDown({Key? key, required this.loadingColor}) : super(key: key);
+
+  final CountDownController _controller = CountDownController();
+  final Color loadingColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: EdgeInsets.all(30),
+        child: CircularCountDownTimer(
+          // Countdown duration in Seconds.
+          duration: 3,
+
+          isReverse: true,
+
+          // Countdown initial elapsed Duration in Seconds.
+          initialDuration: 0,
+
+          // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
+          controller: _controller,
+
+          // Width of the Countdown Widget.
+          width: MediaQuery.of(context).size.width / 2,
+
+          // Height of the Countdown Widget.
+          height: MediaQuery.of(context).size.height / 2,
+
+          // Ring Color for Countdown Widget.
+          ringColor: loadingColor,
+
+          // Ring Gradient for Countdown Widget.
+          ringGradient: null,
+
+          // Filling Color for Countdown Widget.
+          fillColor: Colors.white,
+
+          // Filling Gradient for Countdown Widget.
+          fillGradient: null,
+
+          // Background Color for Countdown Widget.
+          backgroundColor: Colors.transparent,
+
+          // Background Gradient for Countdown Widget.
+          backgroundGradient: null,
+
+          // Border Thickness of the Countdown Ring.
+          strokeWidth: 20,
+
+          // Begin and end contours with a flat edge and no extension.
+          strokeCap: StrokeCap.round,
+
+          // Text Style for Countdown Text.
+          textStyle: TextStyle(
+            fontSize: 48,
+            color: loadingColor,
+            fontWeight: FontWeight.bold,
+          ),
+
+          // Handles visibility of the Countdown Text.
+          isTimerTextShown: true,
+
+          // Handles the timer start.
+          autoStart: true,
+
+          // This Callback will execute when the Countdown Starts.
+          onStart: () {
+            // Here, do whatever you want
+            debugPrint('Countdown Started');
+          },
+
+          // This Callback will execute when the Countdown Ends.
+          onComplete: () {
+            // Here, do whatever you want
+            debugPrint('Countdown Ended');
+            // _controller.start();
+          },
+        ),
+      ),
+    );
+  }
+}
+
