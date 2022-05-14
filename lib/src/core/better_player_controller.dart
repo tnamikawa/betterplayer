@@ -559,9 +559,7 @@ class BetterPlayerController {
         enterFullScreen();
       }
       if (betterPlayerConfiguration.controlsConfiguration.progressCountDown) {
-        _countDownTimer = Timer(const Duration(seconds: 3), () async {
-          await _invokeAutoPlay();
-        });
+        _restartCountDownTimer();
       } else {
         await _invokeAutoPlay();
       }
@@ -577,8 +575,14 @@ class BetterPlayerController {
     }
   }
 
+  void _restartCountDownTimer() {
+    _countDownTimer?.cancel();
+    _countDownTimer = Timer(const Duration(seconds: 3), () async {
+      await _invokeAutoPlay();
+    });
+  }
+
   Future<void> _invokeAutoPlay() async {
-    print('_invokeAutoPlay ' + _isAutomaticPlayPauseHandled.toString());
     if (_isAutomaticPlayPauseHandled()) {
       if (_appLifecycleState == AppLifecycleState.resumed &&
           _isPlayerVisible) {
@@ -767,6 +771,11 @@ class BetterPlayerController {
       if (eventListener != null) {
         eventListener(betterPlayerEvent);
       }
+    }
+    final evtType = betterPlayerEvent.betterPlayerEventType;
+    if (evtType == BetterPlayerEventType.openFullscreen ||
+        evtType == BetterPlayerEventType.hideFullscreenManually) {
+      _restartCountDownTimer();
     }
   }
 
