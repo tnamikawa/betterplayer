@@ -892,8 +892,6 @@ class BetterPlayerController {
     _nextVideoTimeStreamController.add(_nextVideoTime);
     _nextVideoTimer?.cancel();
     _nextVideoTimer = null;
-    _countDownTimer?.cancel();
-    _countDownTimer = null;
   }
 
   ///Play next video form playlist. Do not use manually.
