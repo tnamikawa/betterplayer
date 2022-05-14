@@ -578,6 +578,7 @@ class BetterPlayerController {
   }
 
   Future<void> _invokeAutoPlay() async {
+    print('_invokeAutoPlay ' + _isAutomaticPlayPauseHandled.toString());
     if (_isAutomaticPlayPauseHandled()) {
       if (_appLifecycleState == AppLifecycleState.resumed &&
           _isPlayerVisible) {
