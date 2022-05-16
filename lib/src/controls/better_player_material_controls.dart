@@ -426,7 +426,7 @@ class _BetterPlayerMaterialControlsState
   }
 
   Widget _buildSkipButton() {
-    return _buildHitAreaClickableButton(
+    final btn = _buildHitAreaClickableButton(
       icon: Icon(
         _controlsConfiguration.skipBackIcon,
         size: 24,
@@ -434,16 +434,44 @@ class _BetterPlayerMaterialControlsState
       ),
       onClicked: skipBack,
     );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        btn,
+        Text(
+          _controlsConfiguration.skipBackwardText,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
   }
 
   Widget _buildForwardButton() {
-    return _buildHitAreaClickableButton(
+    final btn = _buildHitAreaClickableButton(
       icon: Icon(
         _controlsConfiguration.skipForwardIcon,
         size: 24,
         color: _controlsConfiguration.iconsColor,
       ),
       onClicked: skipForward,
+    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        btn,
+        Text(
+          _controlsConfiguration.skipForwardText,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        )
+      ],
     );
   }
 
@@ -682,7 +710,7 @@ class _BetterPlayerMaterialControlsState
     if (_betterPlayerController!.controlsAlwaysVisible) {
       return;
     }
-    _hideTimer = Timer(const Duration(milliseconds: 1500), () {
+    _hideTimer = Timer(const Duration(milliseconds: 2500), () {
       changePlayerControlsNotVisible(true);
     });
   }

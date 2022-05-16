@@ -39,6 +39,9 @@ class BetterPlayerControlsConfiguration {
   ///Cupertino only icon, icon of forward
   final IconData skipForwardIcon;
 
+  final String skipForwardText;
+  final String skipBackwardText;
+
   ///Flag used to enable/disable fullscreen
   final bool enableFullscreen;
 
@@ -175,6 +178,8 @@ class BetterPlayerControlsConfiguration {
     this.fullscreenDisableIcon = Icons.fullscreen_exit_outlined,
     this.skipBackIcon = Icons.replay_10_outlined,
     this.skipForwardIcon = Icons.forward_10_outlined,
+    this.skipForwardText = "",
+    this.skipBackwardText = "",
     this.enableFullscreen = true,
     this.enableMute = true,
     this.enableProgressText = true,
