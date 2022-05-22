@@ -25,10 +25,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
               DeviceOrientation.portraitUp
             ],
             controlsConfiguration: BetterPlayerControlsConfiguration(
-              skipForwardText: "パーソナルメニューのチャプタ早送り・巻き戻し部分にチャプタ名の先頭数文字を表示する",
-              skipBackwardText: ""
-              // progressCountDown: true,
-              // loadingColor: Color(0xff48bcc1),
+              progressCountDown: true,
+              loadingColor: Color(0xff48bcc1),
             ));
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,

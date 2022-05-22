@@ -33,8 +33,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: b9113d4dfab33aba8a95f96957cc972cb420331c
-      resolved-ref: b9113d4dfab33aba8a95f96957cc972cb420331c
+      ref: "56a03ce7405a4ed1984b8c2f4018337b30a91dca"
+      resolved-ref: "56a03ce7405a4ed1984b8c2f4018337b30a91dca"
       url: "https://github.com/tnamikawa/circular_countdown_timer"
     source: git
     version: "0.2.1"
