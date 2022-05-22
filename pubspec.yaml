@@ -26,7 +26,7 @@ dependencies:
   circular_countdown_timer:
     git:
       url: https://github.com/tnamikawa/circular_countdown_timer
-      ref: 56a03ce7405a4ed1984b8c2f4018337b30a91dca
+      ref: 119d3a995feb7e1a37256b09466902026208c113
 
 dev_dependencies:
   lint: ^1.8.1

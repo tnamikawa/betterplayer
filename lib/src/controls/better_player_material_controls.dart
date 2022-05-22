@@ -99,7 +99,8 @@ class _BetterPlayerMaterialControlsState
         child: Stack(
           fit: StackFit.expand,
           children: [
-            if (_wasLoading || (_controlsConfiguration.progressCountDown && !_wasCountDone))
+            if (_wasLoading ||
+                (_controlsConfiguration.progressCountDown && !_wasCountDone))
               _buildLoadingWidget()
             else
               _buildHitArea(),
@@ -772,17 +773,22 @@ class _BetterPlayerMaterialControlsState
 
   Widget _buildLoadingWidget() {
     if (_controlsConfiguration.progressCountDown) {
-      return _ThreeSecondsCountDown(loadingColor: _controlsConfiguration.loadingColor);
+      return _ThreeSecondsCountDown(
+        loadingColor: _controlsConfiguration.loadingColor,
+        chapterTitle: _controlsConfiguration.loadingChapterTitle,
+      );
     }
 
     if (_controlsConfiguration.loadingWidget != null) {
-      return Center(child: Container(
+      return Center(
+          child: Container(
         color: _controlsConfiguration.controlBarColor,
         child: _controlsConfiguration.loadingWidget,
       ));
     }
 
-    return Center(child:CircularProgressIndicator(
+    return Center(
+        child: CircularProgressIndicator(
       valueColor:
           AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor),
     ));
@@ -790,87 +796,106 @@ class _BetterPlayerMaterialControlsState
 }
 
 class _ThreeSecondsCountDown extends StatelessWidget {
-  _ThreeSecondsCountDown({Key? key, required this.loadingColor}) : super(key: key);
+  _ThreeSecondsCountDown(
+      {Key? key, required this.loadingColor, required this.chapterTitle})
+      : super(key: key);
 
   final CountDownController _controller = CountDownController();
   final Color loadingColor;
+  final String chapterTitle;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.all(30),
-        child: CircularCountDownTimer(
-          // Countdown duration in Seconds.
-          duration: 3,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: CircularCountDownTimer(
+                // Countdown duration in Seconds.
+                duration: 3,
 
-          isReverse: true,
+                isReverse: true,
 
-          // Countdown initial elapsed Duration in Seconds.
-          initialDuration: 0,
+                // Countdown initial elapsed Duration in Seconds.
+                initialDuration: 0,
 
-          // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
-          controller: _controller,
+                // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
+                controller: _controller,
 
-          // Width of the Countdown Widget.
-          width: MediaQuery.of(context).size.width / 2,
+                // Width of the Countdown Widget.
+                width: MediaQuery.of(context).size.width / 3,
 
-          // Height of the Countdown Widget.
-          height: MediaQuery.of(context).size.height / 2,
+                // Height of the Countdown Widget.
+                height: MediaQuery.of(context).size.height / 3,
 
-          // Ring Color for Countdown Widget.
-          ringColor: loadingColor,
+                // Ring Color for Countdown Widget.
+                ringColor: loadingColor,
 
-          // Ring Gradient for Countdown Widget.
-          ringGradient: null,
+                // Ring Gradient for Countdown Widget.
+                ringGradient: null,
 
-          // Filling Color for Countdown Widget.
-          fillColor: Colors.white,
+                // Filling Color for Countdown Widget.
+                fillColor: Colors.white,
 
-          // Filling Gradient for Countdown Widget.
-          fillGradient: null,
+                // Filling Gradient for Countdown Widget.
+                fillGradient: null,
 
-          // Background Color for Countdown Widget.
-          backgroundColor: Colors.transparent,
+                // Background Color for Countdown Widget.
+                backgroundColor: Colors.transparent,
 
-          // Background Gradient for Countdown Widget.
-          backgroundGradient: null,
+                // Background Gradient for Countdown Widget.
+                backgroundGradient: null,
 
-          // Border Thickness of the Countdown Ring.
-          strokeWidth: 20,
+                // Border Thickness of the Countdown Ring.
+                strokeWidth: 10,
 
-          // Begin and end contours with a flat edge and no extension.
-          strokeCap: StrokeCap.round,
+                // Begin and end contours with a flat edge and no extension.
+                strokeCap: StrokeCap.butt,
 
-          // Text Style for Countdown Text.
-          textStyle: TextStyle(
-            fontSize: 48,
-            color: loadingColor,
-            fontWeight: FontWeight.bold,
+                // Text Style for Countdown Text.
+                textStyle: TextStyle(
+                  fontSize: 48,
+                  color: loadingColor,
+                  fontWeight: FontWeight.bold,
+                ),
+
+                chapterTitle: "",
+
+                // Handles visibility of the Countdown Text.
+                isTimerTextShown: true,
+
+                // Handles the timer start.
+                autoStart: true,
+
+                // This Callback will execute when the Countdown Starts.
+                onStart: () {
+                  // Here, do whatever you want
+                  debugPrint('Countdown Started');
+                },
+
+                // This Callback will execute when the Countdown Ends.
+                onComplete: () {
+                  // Here, do whatever you want
+                  debugPrint('Countdown Ended');
+                  // _controller.start();
+                },
+              ),
+            ),
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(chapterTitle, style: TextStyle(color: loadingColor)),
+            ),
 
-          // Handles visibility of the Countdown Text.
-          isTimerTextShown: true,
-
-          // Handles the timer start.
-          autoStart: true,
-
-          // This Callback will execute when the Countdown Starts.
-          onStart: () {
-            // Here, do whatever you want
-            debugPrint('Countdown Started');
-          },
-
-          // This Callback will execute when the Countdown Ends.
-          onComplete: () {
-            // Here, do whatever you want
-            debugPrint('Countdown Ended');
-            // _controller.start();
-          },
-        ),
+          )
+        ],
       ),
     );
   }
 }
-

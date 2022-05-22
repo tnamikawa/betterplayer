@@ -94,7 +94,8 @@ class _BetterPlayerCupertinoControlsState
         barHeight,
         buttonPadding,
       ),
-      if (_wasLoading || (_controlsConfiguration.progressCountDown && !_wasCountDone))
+      if (_wasLoading ||
+          (_controlsConfiguration.progressCountDown && !_wasCountDone))
         Expanded(child: _buildLoadingWidget())
       else
         _buildHitArea(),
@@ -763,14 +764,18 @@ class _BetterPlayerCupertinoControlsState
 
   Widget _buildLoadingWidget() {
     if (_controlsConfiguration.progressCountDown) {
-      return _ThreeSecondsCountDown(loadingColor: _controlsConfiguration.loadingColor);
+      return _ThreeSecondsCountDown(
+        loadingColor: _controlsConfiguration.loadingColor,
+        chapterTitle: _controlsConfiguration.loadingChapterTitle,
+      );
     }
 
     if (_controlsConfiguration.loadingWidget != null) {
       return _controlsConfiguration.loadingWidget!;
     }
 
-    return Center(child:CircularProgressIndicator(
+    return Center(
+        child: CircularProgressIndicator(
       valueColor:
           AlwaysStoppedAnimation<Color>(_controlsConfiguration.loadingColor),
     ));
@@ -828,10 +833,13 @@ class _BetterPlayerCupertinoControlsState
 }
 
 class _ThreeSecondsCountDown extends StatelessWidget {
-  _ThreeSecondsCountDown({Key? key, required this.loadingColor}) : super(key: key);
+  _ThreeSecondsCountDown(
+      {Key? key, required this.loadingColor, required this.chapterTitle})
+      : super(key: key);
 
   final CountDownController _controller = CountDownController();
   final Color loadingColor;
+  final String chapterTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -876,10 +884,10 @@ class _ThreeSecondsCountDown extends StatelessWidget {
           backgroundGradient: null,
 
           // Border Thickness of the Countdown Ring.
-          strokeWidth: 20,
+          strokeWidth: 10,
 
           // Begin and end contours with a flat edge and no extension.
-          strokeCap: StrokeCap.round,
+          strokeCap: StrokeCap.butt,
 
           // Text Style for Countdown Text.
           textStyle: TextStyle(
@@ -887,6 +895,8 @@ class _ThreeSecondsCountDown extends StatelessWidget {
             color: loadingColor,
             fontWeight: FontWeight.bold,
           ),
+
+          chapterTitle: chapterTitle,
 
           // Handles visibility of the Countdown Text.
           isTimerTextShown: true,
@@ -911,4 +921,3 @@ class _ThreeSecondsCountDown extends StatelessWidget {
     );
   }
 }
-

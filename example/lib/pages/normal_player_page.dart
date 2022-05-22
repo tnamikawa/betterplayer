@@ -26,6 +26,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             ],
             controlsConfiguration: BetterPlayerControlsConfiguration(
               progressCountDown: true,
+              loadingChapterTitle: "次のチャプター",
               loadingColor: Color(0xff48bcc1),
             ));
     _betterPlayerDataSource = BetterPlayerDataSource(
