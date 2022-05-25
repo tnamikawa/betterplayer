@@ -42,6 +42,8 @@ class BetterPlayerController {
   ///between flutter high level code and lower level native code.
   VideoPlayerController? videoPlayerController;
 
+  bool dontRestoreOrientation = false;
+
   ///Controls configuration
   late BetterPlayerControlsConfiguration _betterPlayerControlsConfiguration;
 
