@@ -106,6 +106,7 @@ class _BetterPlayerState extends State<BetterPlayer>
       _navigatorState.maybePop();
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
           overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
+      print('orientation dispose');
       SystemChrome.setPreferredOrientations(
           _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
     }
@@ -243,8 +244,10 @@ class _BetterPlayerState extends State<BetterPlayer>
           DeviceOrientation.landscapeRight
         ];
       }
+      print('orientation _pushFullScreenWidget1');
       await SystemChrome.setPreferredOrientations(deviceOrientations);
     } else {
+      print('orientation _pushFullScreenWidget2');
       await SystemChrome.setPreferredOrientations(
         widget.controller.betterPlayerConfiguration
             .deviceOrientationsOnFullScreen,
@@ -265,6 +268,7 @@ class _BetterPlayerState extends State<BetterPlayer>
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
+    print('orientation _pushFullScreenWidget3');
     await SystemChrome.setPreferredOrientations(
         _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
   }
