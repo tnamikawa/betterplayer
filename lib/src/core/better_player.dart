@@ -245,7 +245,7 @@ class _BetterPlayerState extends State<BetterPlayer>
         ];
       }
       print('orientation _pushFullScreenWidget1');
-      await SystemChrome.setPreferredOrientations(deviceOrientations);
+      // await SystemChrome.setPreferredOrientations(deviceOrientations);
     } else {
       print('orientation _pushFullScreenWidget2');
       await SystemChrome.setPreferredOrientations(
