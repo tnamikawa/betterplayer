@@ -106,8 +106,10 @@ class _BetterPlayerState extends State<BetterPlayer>
       _navigatorState.maybePop();
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
           overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
-      SystemChrome.setPreferredOrientations(
-          _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
+      if (!widget.controller.dontRestoreOrientation) {
+        SystemChrome.setPreferredOrientations(
+            _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
+      }
     }
 
     WidgetsBinding.instance!.removeObserver(this);
@@ -265,6 +267,7 @@ class _BetterPlayerState extends State<BetterPlayer>
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
+    print('hoge ' + widget.controller.dontRestoreOrientation.toString());
     if (!widget.controller.dontRestoreOrientation) {
       await SystemChrome.setPreferredOrientations(
           _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
