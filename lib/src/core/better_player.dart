@@ -106,7 +106,9 @@ class _BetterPlayerState extends State<BetterPlayer>
       _navigatorState.maybePop();
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
           overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
+      print('dispose dontRestoreOrientation ' + widget.controller.dontRestoreOrientation.toString());
       if (!widget.controller.dontRestoreOrientation) {
+        print('dispose setPreferredOrientations');
         SystemChrome.setPreferredOrientations(
             _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
       }
@@ -222,6 +224,7 @@ class _BetterPlayerState extends State<BetterPlayer>
   }
 
   Future<dynamic> _pushFullScreenWidget(BuildContext context) async {
+    print('_pushFullScreenWidget');
     final TransitionRoute<void> route = PageRouteBuilder<void>(
       settings: const RouteSettings(),
       pageBuilder: _fullScreenRoutePageBuilder,
@@ -245,8 +248,10 @@ class _BetterPlayerState extends State<BetterPlayer>
           DeviceOrientation.landscapeRight
         ];
       }
+      print('_pushFullScreenWidget setPreferredOrientations1');
       await SystemChrome.setPreferredOrientations(deviceOrientations);
     } else {
+      print('_pushFullScreenWidget setPreferredOrientations2');
       await SystemChrome.setPreferredOrientations(
         widget.controller.betterPlayerConfiguration
             .deviceOrientationsOnFullScreen,
@@ -267,8 +272,9 @@ class _BetterPlayerState extends State<BetterPlayer>
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
-    print('hoge ' + widget.controller.dontRestoreOrientation.toString());
+    print('_pushFullScreenWidget dontRestoreOrientation:' + widget.controller.dontRestoreOrientation.toString());
     if (!widget.controller.dontRestoreOrientation) {
+      print('_pushFullScreenWidget setPreferredOrientations3');
       await SystemChrome.setPreferredOrientations(
           _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
     }
