@@ -273,7 +273,7 @@ class _BetterPlayerState extends State<BetterPlayer>
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
     print('_pushFullScreenWidget dontRestoreOrientation:' + widget.controller.dontRestoreOrientation.toString());
-    if (!widget.controller.dontRestoreOrientation) {
+    if (!widget.controller.betterPlayerConfiguration.fullScreenByDefault) {
       print('_pushFullScreenWidget setPreferredOrientations3');
       await SystemChrome.setPreferredOrientations(
           _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
