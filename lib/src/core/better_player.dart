@@ -220,7 +220,6 @@ class _BetterPlayerState extends State<BetterPlayer>
   }
 
   Future<dynamic> _pushFullScreenWidget(BuildContext context) async {
-    print('_pushFullScreenWidget');
     final TransitionRoute<void> route = PageRouteBuilder<void>(
       settings: const RouteSettings(),
       pageBuilder: _fullScreenRoutePageBuilder,
@@ -244,10 +243,8 @@ class _BetterPlayerState extends State<BetterPlayer>
           DeviceOrientation.landscapeRight
         ];
       }
-      print('_pushFullScreenWidget setPreferredOrientations1');
       await SystemChrome.setPreferredOrientations(deviceOrientations);
     } else {
-      print('_pushFullScreenWidget setPreferredOrientations2');
       await SystemChrome.setPreferredOrientations(
         widget.controller.betterPlayerConfiguration
             .deviceOrientationsOnFullScreen,
@@ -268,11 +265,8 @@ class _BetterPlayerState extends State<BetterPlayer>
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
-    if (!widget.controller.betterPlayerConfiguration.fullScreenByDefault) {
-      print('_pushFullScreenWidget setPreferredOrientations3');
-      await SystemChrome.setPreferredOrientations(
-          _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
-    }
+    await SystemChrome.setPreferredOrientations(
+        _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
   }
 
   Widget _buildPlayer() {
