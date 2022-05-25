@@ -245,7 +245,7 @@ class _BetterPlayerState extends State<BetterPlayer>
         ];
       }
       print('orientation _pushFullScreenWidget1');
-      // await SystemChrome.setPreferredOrientations(deviceOrientations);
+      await SystemChrome.setPreferredOrientations(deviceOrientations);
     } else {
       print('orientation _pushFullScreenWidget2');
       await SystemChrome.setPreferredOrientations(
@@ -269,8 +269,8 @@ class _BetterPlayerState extends State<BetterPlayer>
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
     print('orientation _pushFullScreenWidget3');
-    await SystemChrome.setPreferredOrientations(
-        _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
+    // await SystemChrome.setPreferredOrientations(
+    //     _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
   }
 
   Widget _buildPlayer() {
