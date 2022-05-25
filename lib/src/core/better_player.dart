@@ -106,12 +106,8 @@ class _BetterPlayerState extends State<BetterPlayer>
       _navigatorState.maybePop();
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
           overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
-      print('dispose dontRestoreOrientation ' + widget.controller.dontRestoreOrientation.toString());
-      if (!widget.controller.dontRestoreOrientation) {
-        print('dispose setPreferredOrientations');
-        SystemChrome.setPreferredOrientations(
-            _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
-      }
+      SystemChrome.setPreferredOrientations(
+          _betterPlayerConfiguration.deviceOrientationsAfterFullScreen);
     }
 
     WidgetsBinding.instance!.removeObserver(this);
@@ -272,7 +268,6 @@ class _BetterPlayerState extends State<BetterPlayer>
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: _betterPlayerConfiguration.systemOverlaysAfterFullScreen);
-    print('_pushFullScreenWidget dontRestoreOrientation:' + widget.controller.dontRestoreOrientation.toString());
     if (!widget.controller.betterPlayerConfiguration.fullScreenByDefault) {
       print('_pushFullScreenWidget setPreferredOrientations3');
       await SystemChrome.setPreferredOrientations(
