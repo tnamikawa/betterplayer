@@ -76,6 +76,7 @@ class _BetterPlayerMaterialControlsState
         child: _buildErrorWidget(),
       );
     }
+    print('_buildMainWidget ' + widget.countDownCapsule.doCountDown.toString());
     return GestureDetector(
       onTap: () {
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
@@ -774,6 +775,7 @@ class _BetterPlayerMaterialControlsState
   }
 
   Widget _buildLoadingWidget() {
+    print('_buildLoadingWidget ' + widget.countDownCapsule.doCountDown.toString());
     if (widget.countDownCapsule.doCountDown) {
       return _ThreeSecondsCountDown(
         loadingColor: _controlsConfiguration.loadingColor,

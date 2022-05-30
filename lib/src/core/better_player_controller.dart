@@ -276,6 +276,7 @@ class BetterPlayerController {
       _setupSubtitles();
     }
 
+    print('setupDataSource doCountDown:' + (countDownCapsule?.doCountDown ?? false).toString());
     if (countDownCapsule?.doCountDown ?? false) {
       _restartCountDownTimer();
     }
@@ -566,6 +567,7 @@ class BetterPlayerController {
       if (fullScreenByDefault && !isFullScreen) {
         enterFullScreen();
       }
+      print('_initializeVideo doCountDown:' + (countDownCapsule?.doCountDown ?? false).toString());
       if (countDownCapsule?.doCountDown ?? false) {
         _restartCountDownTimer();
       } else {
