@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controller_event.dart';
+import 'package:better_player/src/configuration/better_player_event_type.dart';
 import 'package:better_player/src/core/better_player_utils.dart';
 import 'package:better_player/src/subtitles/better_player_subtitle.dart';
 import 'package:better_player/src/subtitles/better_player_subtitles_factory.dart';
@@ -578,7 +579,7 @@ class BetterPlayerController {
   void _restartCountDownTimer() {
     _countDownTimer?.cancel();
     _countDownTimer = Timer(const Duration(seconds: 3), () async {
-      await _invokeAutoPlay();
+      _postEvent(BetterPlayerEvent(BetterPlayerEventType.countDownDone));
     });
   }
 
@@ -771,11 +772,6 @@ class BetterPlayerController {
       if (eventListener != null) {
         eventListener(betterPlayerEvent);
       }
-    }
-    final evtType = betterPlayerEvent.betterPlayerEventType;
-    if (evtType == BetterPlayerEventType.openFullscreen ||
-        evtType == BetterPlayerEventType.hideFullscreenManually) {
-      _restartCountDownTimer();
     }
   }
 

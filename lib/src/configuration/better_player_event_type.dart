@@ -28,4 +28,5 @@ enum BetterPlayerEventType {
   changedPlaylistItem,
   skipForward,
   skipBackward,
+  countDownDone,
 }
