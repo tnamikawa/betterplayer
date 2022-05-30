@@ -18,9 +18,12 @@ class BetterPlayerCupertinoControls extends StatefulWidget {
   ///Controls config
   final BetterPlayerControlsConfiguration controlsConfiguration;
 
+  final CountDownCapsule countDownCapsule;
+
   const BetterPlayerCupertinoControls({
     required this.onControlsVisibilityChanged,
     required this.controlsConfiguration,
+    required this.countDownCapsule,
     Key? key,
   }) : super(key: key);
 
@@ -95,7 +98,7 @@ class _BetterPlayerCupertinoControlsState
         buttonPadding,
       ),
       if (_wasLoading ||
-          (_controlsConfiguration.progressCountDown && !_wasCountDone))
+          (widget.countDownCapsule.doCountDown && !_wasCountDone))
         Expanded(child: _buildLoadingWidget())
       else
         _buildHitArea(),
@@ -606,12 +609,13 @@ class _BetterPlayerCupertinoControlsState
         changePlayerControlsNotVisible(false);
       });
     }
-    if (_controlsConfiguration.progressCountDown) {
+    if (widget.countDownCapsule.doCountDown) {
       _loadingProgressTimer = Timer(const Duration(seconds: 3), () {
         _wasCountDone = true;
         _invokeSetState();
       });
     }
+    _wasCountDone = false;
     _controlsVisibilityStreamSubscription =
         _betterPlayerController!.controlsVisibilityStream.listen((state) {
       changePlayerControlsNotVisible(!state);
@@ -763,10 +767,10 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildLoadingWidget() {
-    if (_controlsConfiguration.progressCountDown) {
+    if (widget.countDownCapsule.doCountDown) {
       return _ThreeSecondsCountDown(
         loadingColor: _controlsConfiguration.loadingColor,
-        chapterTitle: _controlsConfiguration.loadingChapterTitle,
+        chapterTitle: widget.countDownCapsule.chapterTitle,
       );
     }
 

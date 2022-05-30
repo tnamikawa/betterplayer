@@ -25,16 +25,22 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
               DeviceOrientation.portraitUp
             ],
             controlsConfiguration: BetterPlayerControlsConfiguration(
-              progressCountDown: true,
-              loadingChapterTitle: "次のチャプター",
               loadingColor: Color(0xff48bcc1),
             ));
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       Constants.forBiggerBlazesUrl,
     );
-    _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
+    _betterPlayerController = BetterPlayerController(betterPlayerConfiguration, countDownCapsule: CountDownCapsule(
+      true, "サンプル"
+    ));
     _betterPlayerController.setupDataSource(_betterPlayerDataSource);
+    _betterPlayerController.addEventsListener((evt) {
+      print('evt ' + evt.betterPlayerEventType.toString());
+      if (evt.betterPlayerEventType == BetterPlayerEventType.countDownDone) {
+        _betterPlayerController.play();
+      }
+    });
     super.initState();
   }
 

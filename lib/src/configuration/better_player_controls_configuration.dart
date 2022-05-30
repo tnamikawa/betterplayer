@@ -78,8 +78,6 @@ class BetterPlayerControlsConfiguration {
   ///Time to hide controls
   final Duration controlsHideTime;
 
-  final bool progressCountDown;
-
   ///Parameter used to build custom controls
   final Widget Function(BetterPlayerController controller,
       Function(bool) onPlayerVisibilityChanged)? customControlsBuilder;
@@ -166,8 +164,6 @@ class BetterPlayerControlsConfiguration {
   ///Color of text in bottom modal sheet used for overflow menu items.
   final Color overflowModalTextColor;
 
-  final String loadingChapterTitle;
-
   const BetterPlayerControlsConfiguration({
     this.controlBarColor = Colors.black87,
     this.textColor = Colors.white,
@@ -194,7 +190,6 @@ class BetterPlayerControlsConfiguration {
     this.progressBarHandleColor = Colors.white,
     this.progressBarBufferedColor = Colors.white70,
     this.progressBarBackgroundColor = Colors.white60,
-    this.progressCountDown = false,
     this.controlsHideTime = const Duration(milliseconds: 300),
     this.customControlsBuilder,
     this.playerTheme,
@@ -223,7 +218,6 @@ class BetterPlayerControlsConfiguration {
     this.backgroundColor = Colors.black,
     this.overflowModalColor = Colors.white,
     this.overflowModalTextColor = Colors.black,
-    this.loadingChapterTitle = "",
   });
 
   factory BetterPlayerControlsConfiguration.white() {

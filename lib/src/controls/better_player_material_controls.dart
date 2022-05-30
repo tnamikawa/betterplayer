@@ -20,10 +20,13 @@ class BetterPlayerMaterialControls extends StatefulWidget {
   ///Controls config
   final BetterPlayerControlsConfiguration controlsConfiguration;
 
+  final CountDownCapsule countDownCapsule;
+
   const BetterPlayerMaterialControls({
     Key? key,
     required this.onControlsVisibilityChanged,
     required this.controlsConfiguration,
+    required this.countDownCapsule,
   }) : super(key: key);
 
   @override
@@ -100,7 +103,7 @@ class _BetterPlayerMaterialControlsState
           fit: StackFit.expand,
           children: [
             if (_wasLoading ||
-                (_controlsConfiguration.progressCountDown && !_wasCountDone))
+                (widget.countDownCapsule.doCountDown && !_wasCountDone))
               _buildLoadingWidget()
             else
               _buildHitArea(),
@@ -655,11 +658,12 @@ class _BetterPlayerMaterialControlsState
         changePlayerControlsNotVisible(false);
       });
     }
-    if (_controlsConfiguration.progressCountDown) {
+    if (widget.countDownCapsule.doCountDown) {
       _loadingProgressTimer = Timer(const Duration(seconds: 3), () {
         _wasCountDone = true;
         _invokeSetState();
       });
+      _wasCountDone = false;
     }
 
     _controlsVisibilityStreamSubscription =
@@ -772,10 +776,10 @@ class _BetterPlayerMaterialControlsState
   }
 
   Widget _buildLoadingWidget() {
-    if (_controlsConfiguration.progressCountDown) {
+    if (widget.countDownCapsule.doCountDown) {
       return _ThreeSecondsCountDown(
         loadingColor: _controlsConfiguration.loadingColor,
-        chapterTitle: _controlsConfiguration.loadingChapterTitle,
+        chapterTitle: widget.countDownCapsule.chapterTitle,
       );
     }
 

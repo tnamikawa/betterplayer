@@ -21,6 +21,7 @@ class BetterPlayer extends StatefulWidget {
           betterPlayerConfiguration ?? const BetterPlayerConfiguration(),
           betterPlayerDataSource:
               BetterPlayerDataSource(BetterPlayerDataSourceType.network, url),
+          countDownCapsule: CountDownCapsule(false, ""),
         ),
       );
 
@@ -33,6 +34,7 @@ class BetterPlayer extends StatefulWidget {
           betterPlayerConfiguration ?? const BetterPlayerConfiguration(),
           betterPlayerDataSource:
               BetterPlayerDataSource(BetterPlayerDataSourceType.file, url),
+          countDownCapsule: CountDownCapsule(false, ""),
         ),
       );
 

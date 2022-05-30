@@ -172,31 +172,35 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
         }
       }
 
+      var capsule = betterPlayerController.countDownCapsule ?? CountDownCapsule(false, "");
+
       if (controlsConfiguration.customControlsBuilder != null &&
           playerTheme == BetterPlayerTheme.custom) {
         return controlsConfiguration.customControlsBuilder!(
             betterPlayerController, onControlsVisibilityChanged);
       } else if (playerTheme == BetterPlayerTheme.material) {
-        return _buildMaterialControl();
+        return _buildMaterialControl(capsule);
       } else if (playerTheme == BetterPlayerTheme.cupertino) {
-        return _buildCupertinoControl();
+        return _buildCupertinoControl(capsule);
       }
     }
 
     return const SizedBox();
   }
 
-  Widget _buildMaterialControl() {
+  Widget _buildMaterialControl(CountDownCapsule capsule) {
     return BetterPlayerMaterialControls(
       onControlsVisibilityChanged: onControlsVisibilityChanged,
       controlsConfiguration: controlsConfiguration,
+      countDownCapsule: capsule,
     );
   }
 
-  Widget _buildCupertinoControl() {
+  Widget _buildCupertinoControl(CountDownCapsule capsule) {
     return BetterPlayerCupertinoControls(
       onControlsVisibilityChanged: onControlsVisibilityChanged,
       controlsConfiguration: controlsConfiguration,
+      countDownCapsule: capsule,
     );
   }
 

@@ -213,9 +213,12 @@ class BetterPlayerController {
   ///Currently displayed [BetterPlayerSubtitle].
   BetterPlayerSubtitle? renderedSubtitle;
 
+  final CountDownCapsule? countDownCapsule;
+
   BetterPlayerController(
     this.betterPlayerConfiguration, {
     this.betterPlayerPlaylistConfiguration,
+    this.countDownCapsule,
     BetterPlayerDataSource? betterPlayerDataSource,
   }) {
     this._betterPlayerControlsConfiguration =
@@ -271,6 +274,10 @@ class BetterPlayerController {
       });
     } else {
       _setupSubtitles();
+    }
+
+    if (countDownCapsule?.doCountDown ?? false) {
+      _restartCountDownTimer();
     }
 
     ///Process data source
@@ -559,7 +566,7 @@ class BetterPlayerController {
       if (fullScreenByDefault && !isFullScreen) {
         enterFullScreen();
       }
-      if (betterPlayerConfiguration.controlsConfiguration.progressCountDown) {
+      if (countDownCapsule?.doCountDown ?? false) {
         _restartCountDownTimer();
       } else {
         await _invokeAutoPlay();
@@ -577,8 +584,10 @@ class BetterPlayerController {
   }
 
   void _restartCountDownTimer() {
+    print('_restartCountDownTimer');
     _countDownTimer?.cancel();
     _countDownTimer = Timer(const Duration(seconds: 3), () async {
+      print('post countDownDone');
       _postEvent(BetterPlayerEvent(BetterPlayerEventType.countDownDone));
     });
   }
@@ -1323,4 +1332,11 @@ class BetterPlayerController {
       _tempFiles.forEach((file) => file.delete());
     }
   }
+}
+
+class CountDownCapsule {
+  bool doCountDown = false;
+  String chapterTitle = "";
+
+  CountDownCapsule(this.doCountDown, this.chapterTitle);
 }
