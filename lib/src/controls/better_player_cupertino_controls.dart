@@ -43,7 +43,6 @@ class _BetterPlayerCupertinoControlsState
   Timer? _initTimer;
   Timer? _loadingProgressTimer;
   bool _wasLoading = false;
-  bool _wasCountDone = false;
 
   VideoPlayerController? _controller;
   BetterPlayerController? _betterPlayerController;
@@ -98,7 +97,7 @@ class _BetterPlayerCupertinoControlsState
         buttonPadding,
       ),
       if (_wasLoading ||
-          (widget.countDownCapsule.doCountDown && !_wasCountDone))
+          (widget.countDownCapsule.doCountDown))
         Expanded(child: _buildLoadingWidget())
       else
         _buildHitArea(),
@@ -611,11 +610,10 @@ class _BetterPlayerCupertinoControlsState
     }
     if (widget.countDownCapsule.doCountDown) {
       _loadingProgressTimer = Timer(const Duration(seconds: 3), () {
-        _wasCountDone = true;
+        widget.countDownCapsule.doCountDown = false;
         _invokeSetState();
       });
     }
-    _wasCountDone = false;
     _controlsVisibilityStreamSubscription =
         _betterPlayerController!.controlsVisibilityStream.listen((state) {
       changePlayerControlsNotVisible(!state);
