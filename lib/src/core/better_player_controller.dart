@@ -1304,4 +1304,12 @@ class BetterPlayerController {
       _tempFiles.forEach((file) => file.delete());
     }
   }
+
+  void showCountDown(String chapterTitle) {
+    _postEvent(BetterPlayerEvent(BetterPlayerEventType.showCountDown,
+      parameters: <String, dynamic>{
+        chapterTitle: chapterTitle
+      },
+    ));
+  }
 }
