@@ -137,8 +137,6 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
               betterPlayerController.getFit(),
             ),
           ),
-          betterPlayerController.betterPlayerConfiguration.overlay ??
-              Container(),
           BetterPlayerSubtitlesDrawer(
             betterPlayerController: betterPlayerController,
             betterPlayerSubtitlesConfiguration: subtitlesConfiguration,
@@ -147,6 +145,8 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
           ),
           if (!placeholderOnTop) _buildPlaceholder(betterPlayerController),
           _buildControls(context, betterPlayerController),
+          betterPlayerController.betterPlayerConfiguration.overlay ??
+              Container(),
         ],
       ),
     );
