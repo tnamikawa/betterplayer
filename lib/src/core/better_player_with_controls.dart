@@ -172,6 +172,7 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
         }
       }
 
+      print('_buildControls ' + betterPlayerController.countDownCapsule.toString());
       var capsule = betterPlayerController.countDownCapsule ?? CountDownCapsule(false, "");
 
       if (controlsConfiguration.customControlsBuilder != null &&

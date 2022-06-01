@@ -1341,4 +1341,9 @@ class CountDownCapsule {
   String chapterTitle = "";
 
   CountDownCapsule(this.doCountDown, this.chapterTitle);
+
+  @override
+  String toString() {
+    return 'CountDownCapsule{doCountDown: $doCountDown, chapterTitle: $chapterTitle}';
+  }
 }
