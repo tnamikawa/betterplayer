@@ -375,7 +375,7 @@ class _BetterPlayerMaterialControlsState
 
   Widget _buildMiddleRow() {
     return Container(
-      color: _controlsConfiguration.controlBarColor,
+      color: _controlsConfiguration.controlBarColor.withOpacity(0.25),
       width: double.infinity,
       height: double.infinity,
       child: _betterPlayerController?.isLiveStream() == true
